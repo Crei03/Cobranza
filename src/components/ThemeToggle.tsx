@@ -1,10 +1,15 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useTheme } from "./ThemeProvider";
 import { Sun, Moon } from "lucide-react";
 
 export default function ThemeToggle() {
   const { theme, toggle } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { setMounted(true); }, []);
 
   return (
     <button
@@ -16,9 +21,11 @@ export default function ThemeToggle() {
       }}
       aria-label={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
     >
-      <span suppressHydrationWarning>
-        {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-      </span>
+      {mounted ? (
+        theme === "dark" ? <Sun size={20} /> : <Moon size={20} />
+      ) : (
+        <span className="w-5 h-5" />
+      )}
     </button>
   );
 }

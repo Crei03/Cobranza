@@ -47,7 +47,6 @@ export default function BottomNav() {
                 />
                 {isActive && (
                   <div
-                    className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-5 h-0.5 rounded-full"
                     style={{ background: "var(--accent)" }}
                   />
                 )}
