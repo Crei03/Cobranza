@@ -57,7 +57,12 @@ export default function ReportsPage() {
     const ws = wb.addWorksheet("Resumen");
     ws.columns = [{ header: "Mes", key: "m", width: 25 }, { header: "Pagos", key: "c", width: 12 }, { header: "Total", key: "t", width: 18 }];
     ws.getRow(1).eachCell(c => { c.font = { bold: true, color: { argb: "FFFFFFFF" } }; c.fill = hf; c.alignment = { horizontal: "center" }; });
-    for (const [mk, ps] of g) { const d = new Date(mk + "-01"); const t = ps.reduce((s, p) => s + Number(p.amount_paid), 0); ws.addRow({ m: d.toLocaleDateString("es-MX", { month: "long", year: "numeric" }), c: ps.length, t }); }
+    let totalPagos = 0;
+    let totalMonto = 0;
+    for (const [mk, ps] of g) { const d = new Date(mk + "-01"); const t = ps.reduce((s, p) => s + Number(p.amount_paid), 0); totalPagos += ps.length; totalMonto += t; ws.addRow({ m: d.toLocaleDateString("es-MX", { month: "long", year: "numeric" }), c: ps.length, t }); }
+    const totalRow = ws.addRow({ m: "TOTAL", c: totalPagos, t: totalMonto });
+    totalRow.eachCell(c => { c.font = { bold: true }; });
+    ws.getColumn(2).numFmt = fmt;
     ws.getColumn(3).numFmt = fmt;
     for (const [mk, ps] of g) { const d = new Date(mk + "-01"); const s = wb.addWorksheet(d.toLocaleDateString("es-MX", { month: "short", year: "numeric" })); s.columns = [{ header: "Fecha", key: "d", width: 15 }, { header: "Monto", key: "a", width: 18 }, { header: "Confirmación", key: "co", width: 22 }, { header: "Notas", key: "n", width: 30 }]; s.getRow(1).eachCell(c => { c.font = { bold: true, color: { argb: "FFFFFFFF" } }; c.fill = hf; c.alignment = { horizontal: "center" }; }); for (const p of ps) { s.addRow({ d: new Date(p.date + "T00:00:00").toLocaleDateString("es-MX", { day: "numeric", month: "long", year: "numeric" }), a: Number(p.amount_paid), co: p.confirmation_code || "", n: p.notes || "" }); } s.getColumn(2).numFmt = fmt; }
     const buf = await wb.xlsx.writeBuffer();
