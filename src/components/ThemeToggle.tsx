@@ -19,7 +19,7 @@ export default function ThemeToggle() {
         background: "var(--input-bg)",
         color: "var(--text-secondary)",
       }}
-      aria-label={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+      suppressHydrationWarning
     >
       {mounted ? (
         theme === "dark" ? <Sun size={20} /> : <Moon size={20} />
