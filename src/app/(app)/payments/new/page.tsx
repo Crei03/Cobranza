@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { extractReceiptData } from "@/lib/ocr";
-import { ArrowLeft, Camera, Calendar, DollarSign, StickyNote, Check, Hash, Loader2, AlertCircle, X } from "lucide-react";
+import { ArrowLeft, Upload, Calendar, DollarSign, StickyNote, Check, Hash, Loader2, AlertCircle, X } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
 
 export default function NewPaymentPage() {
@@ -66,7 +66,7 @@ export default function NewPaymentPage() {
       <main className="max-w-lg mx-auto px-5 py-6">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="glass rounded-2xl p-4">
-            <label className="flex items-center gap-2 text-base font-semibold mb-3" style={labelStyle}><Camera size={18} style={{ color: "var(--accent)" }} />Comprobante de pago</label>
+            <label className="flex items-center gap-2 text-base font-semibold mb-3" style={labelStyle}><Upload size={18} style={{ color: "var(--accent)" }} />Comprobante de pago</label>
             {receiptPreview ? (
               <div className="space-y-3">
                 <div className="relative rounded-xl overflow-hidden">
@@ -79,9 +79,9 @@ export default function NewPaymentPage() {
               </div>
             ) : (
               <label className="flex flex-col items-center justify-center py-10 border-2 border-dashed rounded-xl cursor-pointer transition-smooth" style={{ borderColor: "var(--input-border)" }}>
-                <input ref={fileInputRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={e => handleReceiptChange(e.target.files?.[0] || null)} />
-                <Camera size={40} style={{ color: "var(--text-muted)" }} className="mb-3" />
-                <span className="text-lg font-medium" style={{ color: "var(--text-secondary)" }}>Tomar foto del comprobante</span>
+                <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={e => handleReceiptChange(e.target.files?.[0] || null)} />
+                <Upload size={40} style={{ color: "var(--text-muted)" }} className="mb-3" />
+                <span className="text-lg font-medium" style={{ color: "var(--text-secondary)" }}>Seleccionar comprobante</span>
                 <span className="text-sm mt-1" style={{ color: "var(--text-muted)" }}>Se leerán los datos automáticamente</span>
               </label>
             )}
